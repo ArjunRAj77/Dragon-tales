@@ -37,7 +37,7 @@ def main():
 
     Embark on a thrilling journey of imagination and adventure! This application allows you to craft your own unique story by selecting various elements such as the setting, objective, obstacle, climax, resolution, and even the name of your main character.
 
-    Once you've made your choices, click the 'Generate Story' button to bring your story to life. If you're feeling adventurous, try the 'Randomize' button for a surprise combination!
+    Once you've made your choices, click the 'Generate Story' button to bring your story to life. If you're feeling adventurous, try the 'Suprise Me' button for a surprise combination!
 
     So, what are you waiting for? Dive in, and let's create some unforgettable tales together.
     
@@ -48,12 +48,13 @@ def main():
         st.subheader("Story 📚 Board")
         st.info("Click on 'Suprise me '  button for randomly generate a story for you!")
         # When the user clicks the "Suprise" button, create a random story .
-        if st.button("Surprise me with a story!",type="primary"):
+        if st.button("Surprise Me!",type="primary"):
                 prompt = " Create a random short story with a story title  . Include emojis in the story. Also mention genre of the story."
                 data = {
                 "message": prompt
                 }
                 st.subheader("Generated Story 📖")
+                st.markdown("---")
                 # st.write(data)
                 with st.spinner("Generating your story...."):
                     story=get_story(data)
@@ -100,6 +101,7 @@ def main():
                 "message": prompt
             }    
             st.subheader("Generated Story 📖")
+            st.markdown("---")
             # Temporary printing Response for troubleshooting purposes.
             # st.write(data)
             with st.spinner("Generating your story...."):
@@ -110,8 +112,8 @@ def main():
     
 
     # Set page footer 
-    st.write("\n\nMade with :heart: by Team ⚡Inevitables ")
-    st.write("ATLAS Madness Hackathon by Google Cloud and MongoDB ,2023")
+    st.write("\n\nMade with :heart: by **Team ⚡Inevitables**")
+    st.markdown("Made for **ATLAS Madness Hackathon by Google Cloud and MongoDB ,2023**")
 if __name__ == "__main__":
     main()
 
