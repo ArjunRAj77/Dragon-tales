@@ -43,74 +43,75 @@ def main():
     
     Happy storytelling!✨
     """)
+    tab1, tab2 = st.tabs(["Random Stories", "Personalised Stories"])
+    with tab1 : 
+        st.subheader("Story 📚 Board")
+        st.info("Click on 'Suprise me '  button for randomly generate a story for you!")
+        # When the user clicks the "Suprise" button, create a random story .
+        if st.button("Surprise me with a story!",type="primary"):
+                prompt = " Create a random short story with a story title  . Include emojis in the story. Also mention genre of the story."
+                data = {
+                "message": prompt
+                }
+                st.subheader("Generated Story 📖")
+                # st.write(data)
+                with st.spinner("Generating your story...."):
+                    story=get_story(data)
+                    st.write(story)          
+    
+    with tab2:
+        # Ask the user to select a choice for each category
+        st.subheader("Story 📚 Board")
+        st.info("Choose your own personalised settings and hit 'Generate stories' button!")
+        with st.expander("⚙️ Advanced Settings "):
+        # Splitting the features into two column for better UI
+            col1, col2 = st.columns(2)  
+            with col1:
+                with st.container():
+                    st.write("Main Character 🧑")
+                    character = st.text_input("Please enter a name for the main character:", key='character')
+                with st.container():
+                    st.write("Environment 🌍")
+                    setting = st.selectbox("Please select an environment:", settings, key='sett')
 
-    # Ask the user to select a choice for each category
-    with st.container():
-        st.subheader("Setting 🌍")
-        setting = st.selectbox("Please select a setting:", settings, key='sett')
+                with st.container():
+                    st.write("Objective 🎯")
+                    objective = st.selectbox("Please select an objective:", objectives, key='objective')
 
-    with st.container():
-        st.subheader("Objective 🎯")
-        objective = st.selectbox("Please select an objective:", objectives, key='objective')
 
-    with st.container():
-        st.subheader("Obstacle 🚧")
-        obstacle = st.selectbox("Please select an obstacle:", obstacles, key='obstacle')
+            with col2:
+                with st.container():
+                    st.write("Obstacle 🚧")
+                    obstacle = st.selectbox("Please select an obstacle:", obstacles, key='obstacle')
+                with st.container():
+                    st.write("Climax 🌋")
+                    climax = st.selectbox("Please select a climax:", climaxes, key='climax')
 
-    with st.container():
-        st.subheader("Climax 🌋")
-        climax = st.selectbox("Please select a climax:", climaxes, key='climax')
+                with st.container():
+                    st.write("Resolution 🏁")
+                    resolution = st.selectbox("Please select a resolution:", resolutions, key='resolution')
 
-    with st.container():
-        st.subheader("Resolution 🏁")
-        resolution = st.selectbox("Please select a resolution:", resolutions, key='resolution')
 
-    with st.container():
-        st.subheader("Main Character 🧑")
-        character = st.text_input("Please enter a name for the main character:", key='character')
 
-    # When the user clicks the "Generate Story" button, generate a story based on their choices
-    if st.button("Generate Story",type="primary"):
-        # data = {
-        #       "message": "write me a story"
-        #     }
-        prompt="Write me a story with emojis included and with the following information. The environment will be"+setting+".The objective of the story is "+objective+". Obstacle type is "+obstacle+".Climax type is "+climax+".Resolution of the story will be "+resolution+". Main character name is "+character
-        data = {
-              "message": prompt
-        }    
-        # data = {
-        #       "message": "write me a story with emojis included and using the storyPlot parameters provided.The main character name is Peter.",
-        #       "storyPlot": {
-        #         "environment": setting,
-        #         "objective": objective,
-        #         "obstacle": obstacle,
-        #         "climax": climax,
-        #         "resolution type ": resolution,
-        #         "main character name": character
-        #       }
-        # }        
-        # For now, display a sample text as the generated story
-        #story = "Once upon a time, in a " + setting + ", " + character + " set out to " + objective + ". But they faced a major obstacle: " + obstacle + ". The climax of their journey was a " + climax + ". In the end, " + resolution + "."
-        st.subheader("Generated Story 📖")
-        # Temporary printing Response for troubleshooting purposes.
-        st.write(data)
-        story = get_story(data)
-        st.write(story)
+        # When the user clicks the "Generate Story" button, generate a story based on their choices
+        if st.button("Generate personalised story",type="primary"):
+            prompt="Write me a story with a story title and emojis included and with the following information. The environment will be"+setting+".The objective of the story is "+objective+". Obstacle type is "+obstacle+".Climax type is "+climax+".Resolution of the story will be "+resolution+". Main character name is "+character
+            data = {
+                "message": prompt
+            }    
+            st.subheader("Generated Story 📖")
+            # Temporary printing Response for troubleshooting purposes.
+            # st.write(data)
+            with st.spinner("Generating your story...."):
+                story = get_story(data)
+                st.write(story)
 
 
     
-    # When the user clicks the "Randomize" button, select random choices for each category
-    if st.button("Randomize",type="primary"):
-        st.selectbox("Please select a setting:", settings, index=random.randint(0, len(settings)-1))
-        st.selectbox("Please select an objective:", objectives, index=random.randint(0, len(objectives)-1))
-        st.selectbox("Please select an obstacle:", obstacles, index=random.randint(0, len(obstacles)-1))
-        st.selectbox("Please select a climax:", climaxes, index=random.randint(0, len(climaxes)-1))
-        st.selectbox("Please select a resolution:", resolutions, index=random.randint(0, len(resolutions)-1))
-        st.text_input("Please enter a name for the main character:", value="Character " + str(random.randint(1, 100)))
-    
+
     # Set page footer 
     st.write("\n\nMade with :heart: by Team ⚡Inevitables ")
-    st.write("ATLAS MADNESS Hackathon by Google Cloud and MongoDB ,2023")
+    st.write("ATLAS Madness Hackathon by Google Cloud and MongoDB ,2023")
 if __name__ == "__main__":
     main()
 
