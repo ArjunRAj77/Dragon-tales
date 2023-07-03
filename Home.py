@@ -69,27 +69,27 @@ def main():
             col1, col2 = st.columns(2)  
             with col1:
                 with st.container():
-                    st.write("Main Character 🧑")
+                    st.markdown("**Main Character** 🧑")
                     character = st.text_input("Please enter a name for the main character:", key='character')
                 with st.container():
-                    st.write("Environment 🌍")
+                    st.markdown("**Environment** 🌍")
                     setting = st.selectbox("Please select an environment:", settings, key='sett')
 
                 with st.container():
-                    st.write("Objective 🎯")
+                    st.markdown("**Objective** 🎯")
                     objective = st.selectbox("Please select an objective:", objectives, key='objective')
 
 
             with col2:
                 with st.container():
-                    st.write("Obstacle 🚧")
+                    st.markdown("**Obstacle** 🚧")
                     obstacle = st.selectbox("Please select an obstacle:", obstacles, key='obstacle')
                 with st.container():
-                    st.write("Climax 🌋")
+                    st.markdown("**Climax** 🌋")
                     climax = st.selectbox("Please select a climax:", climaxes, key='climax')
 
                 with st.container():
-                    st.write("Resolution 🏁")
+                    st.markdown("**Resolution** 🏁")
                     resolution = st.selectbox("Please select a resolution:", resolutions, key='resolution')
 
 
