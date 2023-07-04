@@ -3,6 +3,7 @@ import requests
 import json
 import random
 
+st.set_page_config(page_title="Dragon🐉 Tales 📚", page_icon="📚", layout="centered")
 # Define the API endpoint
 API_ENDPOINT = "https://mongo-gcp-project.uc.r.appspot.com/api/v1/chat"
 
