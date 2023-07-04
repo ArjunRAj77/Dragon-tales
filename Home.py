@@ -2,6 +2,9 @@ import streamlit as st
 import requests
 import json
 import random
+from gtts import gTTS
+import streamlit as st
+import os
 
 st.set_page_config(page_title="Dragon🐉 Tales 📚", page_icon="📚", layout="centered")
 # Define the API endpoint
@@ -25,6 +28,12 @@ def get_story(data):
     # Parse the JSON response
     story = response.text
     return story
+
+#Text to speech function created using Google text to speech API
+def text_to_speech(text, lang='en'):
+    speech = gTTS(text = text, lang = lang, slow = False)
+    speech.save("text.mp3")
+
 
 def main():
     # Display a title
@@ -57,9 +66,13 @@ def main():
                 st.subheader("Generated Story 📖")
                 st.markdown("---")
                 # st.write(data)
-                with st.spinner("Generating your story...."):
+                with st.spinner("Generating your story and audio file...."):
                     story=get_story(data)
-                    st.write(story)          
+                    st.write(story)
+                    st.info("Read the story aloud by playing the below audio file!")    
+                    speech = gTTS(text = story, lang='en-uk', slow = False)
+                    speech.save("story.mp3")
+                    st.audio("story.mp3", format='audio/mp3')      
     
     with tab2:
         # Ask the user to select a choice for each category
@@ -105,10 +118,13 @@ def main():
             st.markdown("---")
             # Temporary printing Response for troubleshooting purposes.
             # st.write(data)
-            with st.spinner("Generating your story...."):
+            with st.spinner("Generating your story and audio file...."):
                 story = get_story(data)
                 st.write(story)
-
+                st.info("Read the story aloud by playing the below audio file!")    
+                speech = gTTS(text = story, lang='en', slow = False)
+                speech.save("personalstory.mp3")
+                st.audio("personalstory.mp3", format='audio/mp3')  
 
     
 
