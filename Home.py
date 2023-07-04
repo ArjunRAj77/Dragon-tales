@@ -5,6 +5,7 @@ import random
 from gtts import gTTS
 import streamlit as st
 import os
+import re
 
 st.set_page_config(page_title="Dragon🐉 Tales 📚", page_icon="📚", layout="centered")
 # Define the API endpoint
@@ -29,10 +30,11 @@ def get_story(data):
     story = response.text
     return story
 
-#Text to speech function created using Google text to speech API
-def text_to_speech(text, lang='en'):
-    speech = gTTS(text = text, lang = lang, slow = False)
-    speech.save("text.mp3")
+
+# Cleaning up the text from emojis
+def remove_emoji(text):
+    return re.sub(r'[^\x00-\x7F]+', '', text)
+
 
 
 def main():
@@ -69,8 +71,9 @@ def main():
                 with st.spinner("Generating your story and audio file...."):
                     story=get_story(data)
                     st.write(story)
+                    cleaned_input = remove_emoji(story)
                     st.info("Read the story aloud by playing the below audio file!")    
-                    speech = gTTS(text = story, lang='en-uk', slow = False)
+                    speech = gTTS(text = cleaned_input, lang='en-uk', slow = False)
                     speech.save("story.mp3")
                     st.audio("story.mp3", format='audio/mp3')      
     
@@ -121,8 +124,9 @@ def main():
             with st.spinner("Generating your story and audio file...."):
                 story = get_story(data)
                 st.write(story)
+                cleaned_input = remove_emoji(story)
                 st.info("Read the story aloud by playing the below audio file!")    
-                speech = gTTS(text = story, lang='en', slow = False)
+                speech = gTTS(text = cleaned_input, lang='en', slow = False)
                 speech.save("personalstory.mp3")
                 st.audio("personalstory.mp3", format='audio/mp3')  
 
