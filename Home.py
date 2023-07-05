@@ -16,7 +16,9 @@ settings = ['City', 'Forest', 'Beach', 'Space', 'Desert', 'Mountain', 'Underwate
 objectives = ['Find a hidden treasure', 'Rescue a kidnapped person', 'Solve a mystery', 'Survive in a hostile environment', 'Defeat a tyrant', 'Discover a lost civilization', 'Prevent an apocalypse', 'Win a competition', 'Uncover a conspiracy', 'Escape from captivity']
 obstacles = ['A powerful enemy', 'Lack of resources', 'A difficult puzzle', 'A treacherous environment', 'A traitor in the team', 'A ticking clock', 'A moral dilemma', 'A haunting past', 'A prophecy or curse', 'A labyrinth or maze']
 climaxes = ['Epic battle between good and evil', 'A race against time', 'A test of wits', 'A sacrifice for the greater good', 'A surprising betrayal', 'A revelation of truth', 'A tragic loss', 'A daring rescue', 'A difficult choice', 'A moment of courage']
-resolutions = ['Justice prevails', 'Love conquers all', 'The truth is revealed', 'Peace is restored', 'A new beginning', 'A tearful farewell', 'A hard-earned victory', 'A lesson learned', 'A dream come true', 'A return to normalcy']
+# resolutions = ['Justice prevails', 'Love conquers all', 'The truth is revealed', 'Peace is restored', 'A new beginning', 'A tearful farewell', 'A hard-earned victory', 'A lesson learned', 'A dream come true', 'A return to normalcy']
+genre = ['Fantasy', 'Sci-Fi', 'Mystery', 'Romance', 'Action', 'Horror', 'Thriller', 'Adventure', 'Comedy', 'Drama', 'Historical', 'Non-fiction','Dark-humour']
+
 
 # Function to send a message to API server and retrieve the response.
 def get_story(data):
@@ -89,15 +91,17 @@ def main():
                     st.markdown("**Main Character** 🧑")
                     character = st.text_input("Please enter a name for the main character:", key='character')
                 with st.container():
+                    st.markdown("**Genre** 🌍")
+                    Genres = st.selectbox("Please select a resolution:", genre, key='genre')
+                with st.container():
                     st.markdown("**Environment** 🌍")
                     setting = st.selectbox("Please select an environment:", settings, key='sett')
 
+
+            with col2:
                 with st.container():
                     st.markdown("**Objective** 🎯")
                     objective = st.selectbox("Please select an objective:", objectives, key='objective')
-
-
-            with col2:
                 with st.container():
                     st.markdown("**Obstacle** 🚧")
                     obstacle = st.selectbox("Please select an obstacle:", obstacles, key='obstacle')
@@ -105,15 +109,13 @@ def main():
                     st.markdown("**Climax** 🌋")
                     climax = st.selectbox("Please select a climax:", climaxes, key='climax')
 
-                with st.container():
-                    st.markdown("**Resolution** 🏁")
-                    resolution = st.selectbox("Please select a resolution:", resolutions, key='resolution')
+
 
 
 
         # When the user clicks the "Generate Story" button, generate a story based on their choices
         if st.button("Generate personalised story",type="primary"):
-            prompt="Write me a story with a story title and  include emojis in the story and with the following information. The environment will be"+setting+".The objective of the story is "+objective+". Obstacle type is "+obstacle+".Climax type is "+climax+".Resolution of the story will be "+resolution+". Main character name is "+character
+            prompt="Write me a story with a story title and mention genre and  include emojis in the story and include the following information. The environment will be"+setting+".The Genre of the story should be "+Genres+". The objective of the story is "+objective+". Obstacle type is "+obstacle+".Climax type is "+climax+". Main character name is "+character
             data = {
                 "message": prompt
             }    
