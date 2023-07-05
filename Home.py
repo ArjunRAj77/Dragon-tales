@@ -67,7 +67,7 @@ def main():
                 }
                 st.subheader("Generated Story 📖")
                 st.markdown("---")
-                # st.write(data)
+                #st.write(data)
                 with st.spinner("Generating your story and audio file...."):
                     story=get_story(data)
                     st.write(story)
@@ -113,7 +113,7 @@ def main():
 
         # When the user clicks the "Generate Story" button, generate a story based on their choices
         if st.button("Generate personalised story",type="primary"):
-            prompt="Write me a story with a story title and emojis included and with the following information. The environment will be"+setting+".The objective of the story is "+objective+". Obstacle type is "+obstacle+".Climax type is "+climax+".Resolution of the story will be "+resolution+". Main character name is "+character
+            prompt="Write me a story with a story title and  include emojis in the story and with the following information. The environment will be"+setting+".The objective of the story is "+objective+". Obstacle type is "+obstacle+".Climax type is "+climax+".Resolution of the story will be "+resolution+". Main character name is "+character
             data = {
                 "message": prompt
             }    
