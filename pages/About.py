@@ -23,3 +23,32 @@ st.markdown("""
 - Akhil M Anil
 - Akshay V Anil
 """)
+
+import streamlit as st
+
+# Assume this is your data
+data = [
+    {
+        "id": 1,
+        "title": "The Enchanted Emoji Forest 🌳🌺🌟",
+        "genre": ["Fantasy", "Adventure"],
+        "story_link": "link_to_story1",
+    },
+    {
+        "id": 2,
+        "title": "\"The Lost Adventure 🗺️\"",
+        "genre": ["Adventure", "Mystery"],
+        "story_link": "link_to_story2",
+    },
+]
+
+# Get list of all genres
+all_genres = set([genre for story in data for genre in story["genre"]])
+
+selected_genres = st.multiselect('Select genres', options=list(all_genres))
+
+filtered_data = [story for story in data if set(selected_genres).intersection(set(story["genre"]))]
+
+for story in filtered_data:
+    link = f"[{story['title']}]({story['story_link']})"
+    st.markdown(link, unsafe_allow_html=True)
