@@ -69,11 +69,17 @@ def main():
                 }
                 st.subheader("Generated Story 📖")
                 st.markdown("---")
-                #st.write(data)
+                # st.write(data)
                 with st.spinner("Generating your story and audio file...."):
-                    story=get_story(data)
-                    st.write(story)
-                    cleaned_input = remove_emoji(story)
+                    story = get_story(data)
+                    story_data = json.loads(story)
+                    story_title= story_data["title"]
+                    story_genre=story_data["genre"]
+                    st.title(f'{story_title}')
+                    st.subheader(f'{story_genre}')
+                    st.write(story_data["story"])
+                    story_body=story_data["story"]
+                    cleaned_input = remove_emoji(story_body)
                     st.info("Read the story aloud by playing the below audio file!")    
                     speech = gTTS(text = cleaned_input, lang='en-uk', slow = False)
                     speech.save("story.mp3")
@@ -115,7 +121,7 @@ def main():
 
         # When the user clicks the "Generate Story" button, generate a story based on their choices
         if st.button("Generate personalised story",type="primary"):
-            prompt="Write me a story with a story title and mention genre and  include emojis in the story and include the following information. The environment will be"+setting+".The Genre of the story should be "+Genres+". The objective of the story is "+objective+". Obstacle type is "+obstacle+".Climax type is "+climax+". Main character name is "+character
+            prompt="Write me a story with a story title and mention genre  and  include emojis in the story and include the following information. The environment will be"+setting+".The Genre of the story should be "+Genres+". The objective of the story is "+objective+". Obstacle type is "+obstacle+".Climax type is "+climax+". Main character name is "+character
             data = {
                 "message": prompt
             }    
@@ -125,8 +131,14 @@ def main():
             # st.write(data)
             with st.spinner("Generating your story and audio file...."):
                 story = get_story(data)
-                st.write(story)
-                cleaned_input = remove_emoji(story)
+                story_data = json.loads(story)
+                story_title= story_data["title"]
+                story_genre=story_data["genre"]
+                st.title(f'{story_title}')
+                st.subheader(f'{story_genre}')
+                st.write(story_data["story"])
+                story_body=story_data["story"]
+                cleaned_input = remove_emoji(story_body)
                 st.info("Read the story aloud by playing the below audio file!")    
                 speech = gTTS(text = cleaned_input, lang='en', slow = False)
                 speech.save("personalstory.mp3")
