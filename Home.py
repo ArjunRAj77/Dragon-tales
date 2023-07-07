@@ -16,7 +16,6 @@ settings = ['City', 'Forest', 'Beach', 'Space', 'Desert', 'Mountain', 'Underwate
 objectives = ['Find a hidden treasure', 'Rescue a kidnapped person', 'Solve a mystery', 'Survive in a hostile environment', 'Defeat a tyrant', 'Discover a lost civilization', 'Prevent an apocalypse', 'Win a competition', 'Uncover a conspiracy', 'Escape from captivity']
 obstacles = ['A powerful enemy', 'Lack of resources', 'A difficult puzzle', 'A treacherous environment', 'A traitor in the team', 'A ticking clock', 'A moral dilemma', 'A haunting past', 'A prophecy or curse', 'A labyrinth or maze']
 climaxes = ['Epic battle between good and evil', 'A race against time', 'A test of wits', 'A sacrifice for the greater good', 'A surprising betrayal', 'A revelation of truth', 'A tragic loss', 'A daring rescue', 'A difficult choice', 'A moment of courage']
-# resolutions = ['Justice prevails', 'Love conquers all', 'The truth is revealed', 'Peace is restored', 'A new beginning', 'A tearful farewell', 'A hard-earned victory', 'A lesson learned', 'A dream come true', 'A return to normalcy']
 genre = ['Fantasy', 'Sci-Fi', 'Mystery', 'Romance', 'Action', 'Horror', 'Thriller', 'Adventure', 'Comedy', 'Drama', 'Historical', 'Non-fiction','Dark-humour']
 
 
@@ -36,7 +35,6 @@ def get_story(data):
 # Cleaning up the text from emojis
 def remove_emoji(text):
     return re.sub(r'[^\x00-\x7F]+', '', text)
-
 
 
 def main():
@@ -83,7 +81,7 @@ def main():
                     st.info("Read the story aloud by playing the below audio file!")    
                     speech = gTTS(text = cleaned_input, lang='en-uk', slow = False)
                     speech.save("story.mp3")
-                    st.audio("story.mp3", format='audio/mp3')      
+                    st.audio("story.mp3", format='audio/mp3')     
     
     with tab2:
         # Ask the user to select a choice for each category
@@ -114,9 +112,6 @@ def main():
                 with st.container():
                     st.markdown("**Climax** 🌋")
                     climax = st.selectbox("Please select a climax:", climaxes, key='climax')
-
-
-
 
 
         # When the user clicks the "Generate Story" button, generate a story based on their choices
