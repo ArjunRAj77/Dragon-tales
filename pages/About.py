@@ -1,8 +1,5 @@
 import streamlit as st
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter
-from io import BytesIO
-import streamlit as st
+
 st.set_page_config(page_title="About 📚", page_icon="📚", layout="centered")
 
 
@@ -58,34 +55,24 @@ for story in filtered_data:
 
 
 
-# Here is your story content (replace this with your actual story content)
-story_content = """
-Story Title
-Once upon a time, in a beautiful enchanted forest...
-"""
 
-# Create a BytesIO buffer to hold the PDF
-pdf_io = BytesIO()
 
-# Create a new PDF object, using BytesIO object as its "file."
-c = canvas.Canvas(pdf_io, pagesize=letter)
+# Assuming that stories is your list of story dictionaries
+stories = [
+    {"title": "The Enchanted Emoji Forest 🌳🌺🌟", "genre": "Fantasy/Adventure", "content": "Story 1..Embark on a thrilling journey of imagination and adventure! This application allows you to craft your own unique story by selecting various elements such as the setting, objective, obstacle, climax, resolution, and even the name of your main character.Once you've made your choices, click the 'Generate Story' button to bring your story to life. If you're feeling adventurous, try the 'Suprise Me' button for a surprise combination!So, what are you waiting for? Dive in, and let's create some unforgettable tales together.."},
+    {"title": "The Lost Adventure 🗺️", "genre": "Adventure/Mystery", "content": "Story 2..."},
+    {"title": "The Enchanted Garden 🌿", "genre": "Fantasy", "content": "Story 3..."},
+    # Add more stories as needed...
+]
 
-# Add the story text to the PDF
-textobject = c.beginText()
-textobject.setTextOrigin(10, 730)
-lines = story_content.split('\n')
-for line in lines:
-    textobject.textLine(line)
+for i, story in enumerate(stories):
+    # Create a new container for each story
+    with st.container():
+        st.header(story["title"])
+        st.subheader(f"Genre: {story['genre']}")
+        with st.expander("📚🚀 Ready for an Adventure? Unfold a Magical Tale Here! 🧙‍♀️🌟"):
+            st.write(story["content"])
 
-c.drawText(textobject)
-
-# Save the PDF to the BytesIO object
-c.save()
-
-# Offer the PDF as a download
-st.download_button(
-    label="Download story as PDF",
-    data=pdf_io,
-    file_name='story.pdf',
-    mime='application/pdf',
-)
+        # Add a horizontal rule to visually separate each story
+        if i < len(stories) - 1:  # Avoid adding a horizontal rule after the last story
+            st.markdown("---")
