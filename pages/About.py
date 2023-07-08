@@ -36,6 +36,7 @@ def app():
     st.markdown("""
     We are always looking to improve and add new features to Dragon Tales. If you have any suggestions or feedback, feel free to reach out to us!
     """)
-
+    st.write("\n\nMade with :heart: by **Team ⚡Inevitables**")
+    st.markdown("Made for **ATLAS Madness Hackathon by Google Cloud and MongoDB ,2023**")
 if __name__ == '__main__':
     app()

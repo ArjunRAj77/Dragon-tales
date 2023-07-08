@@ -22,12 +22,11 @@ genre = ['Fantasy', 'Sci-Fi', 'Mystery', 'Romance', 'Action', 'Horror', 'Thrille
 def get_story(data):
     payload = json.dumps(data)
     headers = {
-    'API-KEY': 'NvKX1N3YX13vr63u5UMVEtAWZ11Pj0CoBcifl5vQsA8Y90XbiTevHZze93wp75j3',
     'Content-Type': 'application/json'
     }
 
-
     response = requests.request("POST", API_ENDPOINT, headers=headers, data=payload)
+    st.write(response)
     # Parse the JSON response
     story = response.text
     return story
@@ -68,7 +67,6 @@ def main():
                 }
                 st.subheader("Generated Story 📖")
                 st.markdown("---")
-                # st.write(data)
                 with st.spinner("Generating your story and audio file...."):
                     story = get_story(data)
                     story_data = json.loads(story)

@@ -27,11 +27,8 @@ all_genres = ['Fantasy', 'Sci-Fi', 'Mystery', 'Romance', 'Action', 'Horror', 'Th
 def get_story():
     with st.spinner("Connecting with the MongoDB ....."):
         headers = {
-        'API-KEY': 'NvKX1N3YX13vr63u5UMVEtAWZ11Pj0CoBcifl5vQsA8Y90XbiTevHZze93wp75j3',
         'Content-Type': 'application/json'
         }
-
-
         response = requests.request("GET", API_ENDPOINT, headers=headers)
         # Parse the JSON response
         story = response.text
@@ -44,18 +41,18 @@ def remove_emoji(text):
 
 # Function for favourite button handling.
 def update_favourite_status(story_id, is_favourite):
-    url = f"https://mongo-gcp-project.uc.r.appspot.com/api/v1/{story_id}"
-    data = {"id":f"story_id","favorite": "false" if is_favourite else "true"}
+    url = "https://mongo-gcp-project.uc.r.appspot.com/api/v1/fav"
     headers = {
-        'API-KEY': 'NvKX1N3YX13vr63u5UMVEtAWZ11Pj0CoBcifl5vQsA8Y90XbiTevHZze93wp75j3',
-        'Content-Type': 'application/json'
-        }
-
-    response = requests.put(url, data=data,headers=headers)
-    if response.status_code == 200:
-        st.success(f"Successfully {'added to' if is_favourite else 'removed from'} favourites!")
-    else:
-        st.error("Failed to update favourite status.")
+    'Content-Type': 'application/json'
+    }
+    fav_value="false" if is_favourite else "true"
+    payload = json.dumps({
+    "id": f"{story_id}",
+    "favorite": f"{fav_value}"
+    })
+    response = requests.request("PUT", url, headers=headers, data=payload)
+    if response.status_code != 200:
+            st.error(f"Failed to reset favourite status for story with ID {story_id}")
 
 #Function to display the dataframe containing all the data.
 def display_story_df(story_data):
@@ -83,10 +80,10 @@ def display_story(i, story, read_aloud):
                     speech = gTTS(text = cleaned_input, lang='en-uk', slow = False)
                     speech.save(f"{audio_file_name}.mp3")
                     st.audio(f"{audio_file_name}.mp3", format='audio/mp3')
-                        # Favourite status button
+                     # Favourite status button
             button_key = f"fav_button_{i}_{story['id']}"
             if st.button('Add to favourites' if story['favorite'] == 'false' else 'Added to favourites', key=f'{button_key}'):
-                update_favourite_status(story['id'], story['favorite'] == 'true')  # here, we pass True if the story is already a favourite, and False otherwise
+                update_favourite_status(story['id'], story['favorite'] == 'true')  
                 st.experimental_rerun()
 
 #Function to hide the read aloud feature
@@ -111,13 +108,16 @@ def filter_stories(filter_input_data):
 def reset_all_favourites(story_data):
     for story in story_data:
         if story['favorite'] == 'true':
-            url = f"https://mongo-gcp-project.uc.r.appspot.com/api/v1/{story['id']}"
-            data = {"favorite": "false"}
+            story_id=story['id']
+            url = f"https://mongo-gcp-project.uc.r.appspot.com/api/v1/fav"
+            payload = json.dumps({
+            "id": f"{story_id}",
+            "favorite": "false"
+            })
             headers = {
-            'API-KEY': 'NvKX1N3YX13vr63u5UMVEtAWZ11Pj0CoBcifl5vQsA8Y90XbiTevHZze93wp75j3',
             'Content-Type': 'application/json'
             }
-            response = requests.put(url, data=data,headers=headers)
+            response = requests.request("PUT", url, headers=headers, data=payload)
             if response.status_code != 200:
                 st.error(f"Failed to reset favourite status for story with ID {story['id']}")
 
@@ -162,74 +162,8 @@ def main():
             st.markdown("## 📚 Complete List of Short Stories")
             st.success("All your short stories are here. Happy reading! :)")
             display_stories(story_data, read_aloud=True)
-
-# def main():
-#     data= get_story()
-#     story_data = json.loads(data)
-#     filter_input_data=story_data#Simply copying the data
-#     # Create a DataFrame from the stories data
-#     st.subheader("📚 Your Story Archive 🗺️")
-#     story_df = pd.DataFrame(story_data)
-#     story_df = story_df.rename(columns={"title": "Story Title", "genres": "Story Genre"})
-#     # Display the DataFrame
-#     st.dataframe(story_df[["Story Title","Story Genre"]],use_container_width=True)
-#     st.markdown("---")
-#     # st.write(story_data)
-#     st.info("🔍 Check the box below to filter stories by genre!")
-#     agree = st.checkbox('🔍 Apply Story Filter')
-
-#     if agree :
-#         st.markdown("## 🌟 Filtered Tales")
-#         st.success("All your selected short stories are here. Happy reading! :)")
-#         selected_genres = st.multiselect('Select genres', options=list(all_genres))
-#         filtered_data = [story for story in filter_input_data if set(selected_genres).intersection(set(story["genres"]))]
-#         if not filtered_data:
-#             st.warning("🔍 No stories found with the selected genre. Try a different filter!")
-#         else :
-#             # Printing out the filtered content!
-#             for i,story in enumerate(filtered_data):
-#                 with st.container():
-#                     st.header(f'{i+1}. {story["title"]}')
-#                     combined_genres = ', '.join(story["genres"])  # Join the genres with a comma
-#                     st.subheader(f"Genre: {combined_genres}")
-#                     st.info("Click on the expander to read the story. Happy reading! :)")
-#                     with st.expander("📚🚀 Unfold Your Tale 🧙‍♀️🌟"):
-#                         st.write(story["story"])
-#                         if st.button("Read Aloud!",type="primary",key=f'{story["id"]}',help="Generates an audio file for the story."):
-#                             with st.spinner("Generating your story into an audio file...."):
-#                                 cleaned_input = remove_emoji(story["story"])
-#                                 clean_title=remove_emoji(f'{story["title"]}')
-#                                 audio_file_name=f"{clean_title}"
-#                                 st.info("Read the story aloud by playing the below audio file!")    
-#                                 speech = gTTS(text = cleaned_input, lang='en-uk', slow = False)
-#                                 speech.save(f"{audio_file_name}.mp3")
-#                                 st.audio(f"{audio_file_name}.mp3", format='audio/mp3') 
-#     else:
-#         st.markdown("## 📚 Complete List of Short Stories")
-#         st.success("All your short stories are here. Happy reading! :)")
-#         for i, story in enumerate(story_data):
-#             # Create a new container for each story
-#             with st.container():
-#                 st.header(f'{i+1}. {story["title"]}')
-#                 combined_genres = ', '.join(story["genres"])  # Join the genres with a comma
-#                 st.subheader(f"Genre: {combined_genres}")
-#                 st.info("Click on the expander to read the story. Happy reading! :)")
-#                 with st.expander("📚🚀 Unfold Your Tale 🧙‍♀️🌟"):
-#                     st.write(story["story"])
-#                     if st.button("Read Aloud!",type="primary",key=f'{story["id"]}',help="Generates an audio file for the story."):
-#                         with st.spinner("Generating your story into an audio file...."):
-#                             cleaned_input = remove_emoji(story["story"])
-#                             clean_title=remove_emoji(f'{story["title"]}')
-#                             audio_file_name=f"{clean_title}"
-#                             st.info("Read the story aloud by playing the below audio file!")    
-#                             speech = gTTS(text = cleaned_input, lang='en-uk', slow = False)
-#                             speech.save(f"{audio_file_name}.mp3")
-#                             st.audio(f"{audio_file_name}.mp3", format='audio/mp3')  
-
-#                 # Add a horizontal rule to visually separate each story
-#                 if i < len(story_data) - 1:  # Avoid adding a horizontal rule after the last story
-#                     st.markdown("---")
-
+    st.write("\n\nMade with :heart: by **Team ⚡Inevitables**")
+    st.markdown("Made for **ATLAS Madness Hackathon by Google Cloud and MongoDB ,2023**")
 
 if __name__ == "__main__":
     main()
