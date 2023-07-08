@@ -1,6 +1,6 @@
 # Dragon Tales - Short Story Generator 🐉📚
 
-![Project Image](https://link-to-your-project-image)
+![Project Image](Dragon-tales.png)
 
 Welcome to Dragon Tales, a powerful and user-friendly short story generator! 
 
