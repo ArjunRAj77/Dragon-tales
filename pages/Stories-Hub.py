@@ -43,7 +43,7 @@ def remove_emoji(text):
 # Function for favourite button handling.
 def update_favourite_status(story_id, is_favourite):
     url = f"https://mongo-gcp-project.uc.r.appspot.com/api/v1/{story_id}"
-    data = {"favorite": "false" if is_favourite else "true"}
+    data = {"id":f"story_id","favorite": "false" if is_favourite else "true"}
     response = requests.put(url, data=data)
     if response.status_code == 200:
         st.success(f"Successfully {'added to' if is_favourite else 'removed from'} favourites!")
