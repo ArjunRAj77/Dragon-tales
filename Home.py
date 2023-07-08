@@ -3,7 +3,6 @@ import requests
 import json
 import random
 from gtts import gTTS
-import streamlit as st
 import os
 import re
 
@@ -16,15 +15,17 @@ settings = ['City', 'Forest', 'Beach', 'Space', 'Desert', 'Mountain', 'Underwate
 objectives = ['Find a hidden treasure', 'Rescue a kidnapped person', 'Solve a mystery', 'Survive in a hostile environment', 'Defeat a tyrant', 'Discover a lost civilization', 'Prevent an apocalypse', 'Win a competition', 'Uncover a conspiracy', 'Escape from captivity']
 obstacles = ['A powerful enemy', 'Lack of resources', 'A difficult puzzle', 'A treacherous environment', 'A traitor in the team', 'A ticking clock', 'A moral dilemma', 'A haunting past', 'A prophecy or curse', 'A labyrinth or maze']
 climaxes = ['Epic battle between good and evil', 'A race against time', 'A test of wits', 'A sacrifice for the greater good', 'A surprising betrayal', 'A revelation of truth', 'A tragic loss', 'A daring rescue', 'A difficult choice', 'A moment of courage']
-genre = ['Fantasy', 'Sci-Fi', 'Mystery', 'Romance', 'Action', 'Horror', 'Thriller', 'Adventure', 'Comedy', 'Drama', 'Historical', 'Non-fiction','Dark-humour']
+genre = ['Fantasy', 'Sci-Fi', 'Mystery', 'Romance', 'Action', 'Horror', 'Thriller', 'Adventure', 'Comedy', 'Drama', 'Historical', 'Non-fiction','Dark-humour','Magical Realism']
 
 
 # Function to send a message to API server and retrieve the response.
 def get_story(data):
     payload = json.dumps(data)
     headers = {
+    'API-KEY': 'NvKX1N3YX13vr63u5UMVEtAWZ11Pj0CoBcifl5vQsA8Y90XbiTevHZze93wp75j3',
     'Content-Type': 'application/json'
     }
+
 
     response = requests.request("POST", API_ENDPOINT, headers=headers, data=payload)
     # Parse the JSON response
@@ -58,7 +59,7 @@ def main():
     tab1, tab2 = st.tabs(["Random Stories", "Personalised Stories"])
     with tab1 : 
         st.subheader("Story 📚 Board")
-        st.info("Click on 'Suprise me '  button for randomly generate a story for you!")
+        st.info("Click on 'Surprise Me '  button for randomly generate a story for you!")
         # When the user clicks the "Suprise" button, create a random story .
         if st.button("Surprise Me!",type="primary"):
                 prompt = " Create a random short story with a story title  . Include emojis in the story. Also mention genre of the story."
@@ -116,7 +117,7 @@ def main():
 
 
         # When the user clicks the "Generate Story" button, generate a story based on their choices
-        if st.button("Generate personalised story",type="primary"):
+        if st.button("Generate Personalised Story",type="primary"):
             prompt="Write me a story with a story title and mention genre  and  include emojis in the story and include the following information. The environment will be"+setting+".The Genre of the story should be "+Genres+". The objective of the story is "+objective+". Obstacle type is "+obstacle+".Climax type is "+climax+". Main character name is "+character
             data = {
                 "message": prompt

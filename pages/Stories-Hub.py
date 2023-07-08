@@ -27,8 +27,10 @@ all_genres = ['Fantasy', 'Sci-Fi', 'Mystery', 'Romance', 'Action', 'Horror', 'Th
 def get_story():
     with st.spinner("Connecting with the MongoDB ....."):
         headers = {
+        'API-KEY': 'NvKX1N3YX13vr63u5UMVEtAWZ11Pj0CoBcifl5vQsA8Y90XbiTevHZze93wp75j3',
         'Content-Type': 'application/json'
         }
+
 
         response = requests.request("GET", API_ENDPOINT, headers=headers)
         # Parse the JSON response
@@ -44,27 +46,33 @@ def remove_emoji(text):
 def update_favourite_status(story_id, is_favourite):
     url = f"https://mongo-gcp-project.uc.r.appspot.com/api/v1/{story_id}"
     data = {"id":f"story_id","favorite": "false" if is_favourite else "true"}
-    response = requests.put(url, data=data)
+    headers = {
+        'API-KEY': 'NvKX1N3YX13vr63u5UMVEtAWZ11Pj0CoBcifl5vQsA8Y90XbiTevHZze93wp75j3',
+        'Content-Type': 'application/json'
+        }
+
+    response = requests.put(url, data=data,headers=headers)
     if response.status_code == 200:
         st.success(f"Successfully {'added to' if is_favourite else 'removed from'} favourites!")
     else:
         st.error("Failed to update favourite status.")
 
-
+#Function to display the dataframe containing all the data.
 def display_story_df(story_data):
     st.subheader("📚 Your Story Archive 🗺️")
     story_df = pd.DataFrame(story_data)
     story_df = story_df.rename(columns={"title": "Story Title", "genres": "Story Genre"})
     # Display the DataFrame
     st.dataframe(story_df[["Story Title","Story Genre"]],use_container_width=True)
-
+ 
+#Function to display the story.
 def display_story(i, story, read_aloud):
     with st.container():
         st.header(f'{i+1}. {story["title"]}')
         combined_genres = ', '.join(story["genres"])  # Join the genres with a comma
         st.subheader(f"Genre: {combined_genres}")
         st.info("Click on the expander to read the story. Happy reading! :)")
-        with st.expander("📚🚀 Unfold Your Tale 🧙‍♀️🌟"):
+        with st.expander("📚🚀 Unfold Your Story 🧙‍♀️🌟"):
             st.write(story["story"])
             if read_aloud and st.button("Read Aloud!",type="primary",key=f'{story["id"]}',help="Generates an audio file for the story."):
                 with st.spinner("Generating your story into an audio file...."):
@@ -81,7 +89,7 @@ def display_story(i, story, read_aloud):
                 update_favourite_status(story['id'], story['favorite'] == 'true')  # here, we pass True if the story is already a favourite, and False otherwise
                 st.experimental_rerun()
 
-
+#Function to hide the read aloud feature
 def display_stories(story_data, read_aloud=False):
     for i, story in enumerate(story_data):
         display_story(i, story, read_aloud)
@@ -89,6 +97,7 @@ def display_stories(story_data, read_aloud=False):
         if i < len(story_data) - 1:  # Avoid adding a horizontal rule after the last story
             st.markdown("---") 
 
+#Function to filter out genre of the stories.
 def filter_stories(filter_input_data):
     selected_genres = st.multiselect('Select genres', options=list(all_genres))
     filtered_data = [story for story in filter_input_data if set(selected_genres).intersection(set(story["genres"]))]
@@ -98,15 +107,21 @@ def filter_stories(filter_input_data):
     else:
         return filtered_data
 
+#Function to reset all the selected favourite stories into zero
 def reset_all_favourites(story_data):
     for story in story_data:
         if story['favorite'] == 'true':
             url = f"https://mongo-gcp-project.uc.r.appspot.com/api/v1/{story['id']}"
             data = {"favorite": "false"}
-            response = requests.put(url, data=data)
+            headers = {
+            'API-KEY': 'NvKX1N3YX13vr63u5UMVEtAWZ11Pj0CoBcifl5vQsA8Y90XbiTevHZze93wp75j3',
+            'Content-Type': 'application/json'
+            }
+            response = requests.put(url, data=data,headers=headers)
             if response.status_code != 200:
                 st.error(f"Failed to reset favourite status for story with ID {story['id']}")
 
+# The mighty Main function 
 def main():
     data= get_story()
     story_data = json.loads(data)
