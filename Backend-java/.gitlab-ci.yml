@@ -1,0 +1,27 @@
+stages:
+  - build
+  - deploy
+
+build:
+  image: maven:3.8.7-openjdk-18-slim
+  stage: build
+  script:
+    - mvn clean -DskipTests
+    - mvn install -DskipTests
+    - mvn clean package -DskipTests
+  artifacts:
+    paths:
+      - target/*.jar
+
+deploy:
+  image: google/cloud-sdk:latest
+  stage: deploy
+  script:
+    - echo $GCLOUD_SERVICE_KEY > /tmp/credentials.json
+    - gcloud auth activate-service-account --key-file /tmp/credentials.json
+    - gcloud config set project mongo-gcp-project
+    - gcloud config set run/region us-central
+    - gcloud app deploy 
+  only:
+    - main
+  when: manual
