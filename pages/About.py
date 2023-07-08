@@ -2,78 +2,38 @@ import streamlit as st
 
 st.set_page_config(page_title="About 📚", page_icon="📚", layout="centered")
 
+def app():
+    st.title("About Dragon Tales 🐉📚")
 
-st.markdown("""
-# Welcome to the Dragon🐉 Tales! 📚✨
+    st.markdown("## Project Description 📝")
+    st.markdown("""
+    Welcome to Dragon Tales, a powerful and user-friendly short story generator! This project uses artificial intelligence to generate unique, immersive, and engaging short stories based on a genre selected by the user. With an elegant Streamlit UI, Dragon Tales provides a clean and simple interface for users to navigate their stories, filter them by genre, and mark them as favorites for easy access later.
+    """)
 
-Embark on a thrilling journey of imagination and adventure! This application allows you to craft your own unique story by selecting various elements such as the setting, objective, obstacle, climax, resolution, and even the name of your main character.
+    st.markdown("## Team Members 👥")
+    st.markdown("""
+    - **Arjun Raj**
+    - **Akshay V Anil**
+    - **Akshaymon K V**
+    - **Akhil M Anil**
+    """)
 
-Once you've made your choices, click the 'Generate Story' button to bring your story to life. If you're feeling adventurous, try the 'Suprise Me' button for a surprise combination!
+    st.markdown("## Benefits 🎁")
+    st.markdown("""
+    - **Creativity Boost**: Dragon Tales offers a limitless pool of stories, inspiring writers and fueling their creativity.
+    - **Educational Tool**: It can be used to engage students in classrooms, making learning interactive and enjoyable.
+    - **Reading Anytime, Anywhere**: With the 'Download' and 'Read Aloud' features, you can enjoy your unique stories wherever you go, even without internet access.
+    """)
 
-So, what are you waiting for? Dive in, and let's create some unforgettable tales together.
-    
-Happy storytelling!✨
-""")
-st.markdown("---")
-st.subheader("Meet the Team")
-st.markdown("""
-#### Team Inevitables
-- Arjun Raj
-- Akshaymon K V
-- Akhil M Anil
-- Akshay V Anil
-""")
+    st.markdown("## Motivation 💡")
+    st.markdown("""
+    Our main motivation behind this project was to create a tool that makes reading and writing more accessible and enjoyable. We wanted to provide a platform where anyone can generate a unique story and delve into an adventure with just a click of a button.
+    """)
 
-import streamlit as st
+    st.markdown("## Future Improvements 💼")
+    st.markdown("""
+    We are always looking to improve and add new features to Dragon Tales. If you have any suggestions or feedback, feel free to reach out to us!
+    """)
 
-# Assume this is your data
-data = [
-    {
-        "id": 1,
-        "title": "The Enchanted Emoji Forest 🌳🌺🌟",
-        "genre": ["Fantasy", "Adventure"],
-        "story_link": "link_to_story1",
-    },
-    {
-        "id": 2,
-        "title": "\"The Lost Adventure 🗺️\"",
-        "genre": ["Adventure", "Mystery"],
-        "story_link": "link_to_story2",
-    },
-]
-
-# Get list of all genres
-all_genres = set([genre for story in data for genre in story["genre"]])
-
-selected_genres = st.multiselect('Select genres', options=list(all_genres))
-
-filtered_data = [story for story in data if set(selected_genres).intersection(set(story["genre"]))]
-
-for story in filtered_data:
-    link = f"[{story['title']}]({story['story_link']})"
-    st.markdown(link, unsafe_allow_html=True)
-
-
-
-
-
-# Assuming that stories is your list of story dictionaries
-stories = [
-    {"title": "The Enchanted Emoji Forest 🌳🌺🌟", "genre": "Fantasy/Adventure", "content": "Story 1..Embark on a thrilling journey of imagination and adventure! This application allows you to craft your own unique story by selecting various elements such as the setting, objective, obstacle, climax, resolution, and even the name of your main character.Once you've made your choices, click the 'Generate Story' button to bring your story to life. If you're feeling adventurous, try the 'Suprise Me' button for a surprise combination!So, what are you waiting for? Dive in, and let's create some unforgettable tales together.."},
-    {"title": "The Lost Adventure 🗺️", "genre": "Adventure/Mystery", "content": "Story 2..."},
-    {"title": "The Enchanted Garden 🌿", "genre": "Fantasy", "content": "Story 3..."},
-    # Add more stories as needed...
-]
-
-for i, story in enumerate(stories):
-    # Create a new container for each story
-    with st.container():
-        st.header(story["title"])
-        st.subheader(f"Genre: {story['genre']}")
-        with st.expander("📚🚀 Ready for an Adventure? Unfold a Magical Tale Here! 🧙‍♀️🌟"):
-            st.write(story["content"])
-
-        # Add a horizontal rule to visually separate each story
-        if i < len(stories) - 1:  # Avoid adding a horizontal rule after the last story
-            st.markdown("---")
-st.success('✨ Your short story was generated successfully! Head over to the 📚 Stories Hub to view it.')
+if __name__ == '__main__':
+    app()
