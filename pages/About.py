@@ -76,3 +76,4 @@ for i, story in enumerate(stories):
         # Add a horizontal rule to visually separate each story
         if i < len(stories) - 1:  # Avoid adding a horizontal rule after the last story
             st.markdown("---")
+st.success('✨ Your short story was generated successfully! Head over to the 📚 Stories Hub to view it.')

@@ -17,18 +17,22 @@ Welcome to the **My Stories Hub** ! Here you will find all your unique and intri
 """)
 # Add color to your text using HTML 
 st.markdown("---")
+# Get list of all genres
+all_genres = ['Fantasy', 'Sci-Fi', 'Mystery', 'Romance', 'Action', 'Horror', 'Thriller', 'Adventure', 'Comedy', 'Drama', 'Historical', 'Non-fiction','Dark-humour']
+
 
 # Function to get the api response from springboot application.
 def get_story():
-    headers = {
-    'Content-Type': 'application/json'
-    }
+    with st.spinner("Connecting with the MongoDB ....."):
+        headers = {
+        'Content-Type': 'application/json'
+        }
 
-    response = requests.request("GET", API_ENDPOINT, headers=headers)
-    # Parse the JSON response
-    story = response.text
-    #st.write(story)
-    return story
+        response = requests.request("GET", API_ENDPOINT, headers=headers)
+        # Parse the JSON response
+        story = response.text
+        #st.write(story)
+        return story
 
 # Cleaning up the text from emojis
 def remove_emoji(text):
@@ -37,20 +41,35 @@ def remove_emoji(text):
 def main():
     data= get_story()
     story_data = json.loads(data)
+    filter_input_data=story_data#Simply copying the data
     # Create a DataFrame from the stories data
     st.subheader("List of stories 🗺️")
     story_df = pd.DataFrame(story_data)
-    story_df = story_df.rename(columns={"title": "Story Title", "genre": "Story Genre"})
+    story_df = story_df.rename(columns={"title": "Story Title", "genres": "Story Genre"})
     # Display the DataFrame
     st.dataframe(story_df[["Story Title","Story Genre"]],use_container_width=True)
     st.markdown("---")
     st.info("Click on the expander to read the story. Happy reading! :)")
     # st.write(story_data)
+    agree = st.checkbox('Filter out stories')
+
+    if agree :
+        st.write("This is working, obviously.")
+        selected_genres = st.multiselect('Select genres', options=list(all_genres))
+
+        filtered_data = [story for story in filter_input_data if set(selected_genres).intersection(set(story["genres"]))]
+
+        # Printing out the major names for now...
+        for story in filtered_data:
+            link = f"{story['title']})"
+            st.markdown(link, unsafe_allow_html=True)
+    
     for i, story in enumerate(story_data):
         # Create a new container for each story
         with st.container():
             st.header(f'{i+1}. {story["title"]}')
-            st.subheader(f"Genre: {story['genre']}")
+            combined_genres = ', '.join(story["genres"])  # Join the genres with a comma
+            st.subheader(f"Genre: {combined_genres}")
             with st.expander("📚🚀 Ready for an Adventure? Unfold a Magical Tale Here! 🧙‍♀️🌟"):
                 st.write(story["story"])
                 if st.button("Read Aloud!",type="primary",key=f'{story["id"]}',help="Generates an audio file for the story."):

@@ -72,9 +72,10 @@ def main():
                     story = get_story(data)
                     story_data = json.loads(story)
                     story_title= story_data["title"]
-                    story_genre=story_data["genre"]
+                    combined_genres = ', '.join(story_data["genres"])
+                    st.success('✨ Your short story was generated successfully! You can now view it in the 📚 Stories Hub.')
                     st.title(f'{story_title}')
-                    st.subheader(f'{story_genre}')
+                    st.subheader(f'Genre : {combined_genres}')
                     st.write(story_data["story"])
                     story_body=story_data["story"]
                     cleaned_input = remove_emoji(story_body)
@@ -122,15 +123,14 @@ def main():
             }    
             st.subheader("Generated Story 📖")
             st.markdown("---")
-            # Temporary printing Response for troubleshooting purposes.
-            # st.write(data)
             with st.spinner("Generating your story and audio file...."):
                 story = get_story(data)
                 story_data = json.loads(story)
                 story_title= story_data["title"]
-                story_genre=story_data["genre"]
+                combined_genres = ', '.join(story_data["genres"])  # Join the genres with a comma
+                st.success('✨ Your short story was generated successfully! You can now view it in the 📚 Stories Hub.')
                 st.title(f'{story_title}')
-                st.subheader(f'{story_genre}')
+                st.subheader(f"Genre: {combined_genres}")
                 st.write(story_data["story"])
                 story_body=story_data["story"]
                 cleaned_input = remove_emoji(story_body)
