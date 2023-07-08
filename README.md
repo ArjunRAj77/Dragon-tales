@@ -4,6 +4,7 @@
 
 Welcome to Dragon Tales, a powerful and user-friendly short story generator! 
 
+Access the website here : [Dragon Tales](http://35.224.204.110/)
 ## Table of Contents
 
 1. [About the Project](#about)
@@ -56,7 +57,21 @@ pip install -r requirements.txt
 ```sh
 streamlit run Home.py
 ```
+<a name="Design"></a>
+## System Design
 
+The entire system is divided into 2 microservices.
+- The Front End Streamlit Python application
+- The Back End Springboot Java application
+
+The backend utilises the Open AI chatGPT API services and the power of MongoDB Atlas to provide a seamless experience to the user.
+
+Where as the front end UI is powered by Streamlit UI and the entire communication is happening through the dedicated API service of Dragon Tales.
+
+The entire microservices are deployed and manged by Google Cloud services and Google Kuberenetes Engine.
+
+
+The entire API documentation is available at : [Dragon Tales API docs](https://mongo-gcp-project.uc.r.appspot.com/swagger-ui/index.html#)
 <a name="contributing"></a>
 ## Contributing
 
