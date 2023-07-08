@@ -12,10 +12,12 @@ def app():
 
     st.markdown("## Team Members 👥")
     st.markdown("""
-    - **Arjun Raj**
-    - **Akshay V Anil**
-    - **Akshaymon K V**
-    - **Akhil M Anil**
+    **Team Inevitables**
+
+    - [**Arjun Raj**](https://www.linkedin.com/in/arjun-raj-pala/)
+    - [**Akshay V Anil**](https://www.linkedin.com/in/akshayvanil/)
+    - [**Akshaymon K V**](https://www.linkedin.com/in/akshaymonkvn3/)
+    - [**Akhil M Anil**](https://www.linkedin.com/in/akhil-m-anil-2bb54a122/)
     """)
 
     st.markdown("## Benefits 🎁")
