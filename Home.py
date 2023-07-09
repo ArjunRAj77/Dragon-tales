@@ -26,7 +26,6 @@ def get_story(data):
     }
 
     response = requests.request("POST", API_ENDPOINT, headers=headers, data=payload)
-    st.write(response)
     # Parse the JSON response
     story = response.text
     return story
