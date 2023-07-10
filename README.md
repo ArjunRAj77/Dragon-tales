@@ -5,6 +5,11 @@
 Welcome to Dragon Tales, a powerful and user-friendly short story generator! 
 
 Access the website here : [Dragon Tales](http://35.224.204.110/)
+
+Back-end spring boot code is available in: the `Backend-SpringBootApplication.zip` file.
+
+Demo : [Dragon Tales Walkthrough](https://youtu.be/isWk6O8Fc-c)
+
 ## Table of Contents
 
 1. [About the Project](#about)
